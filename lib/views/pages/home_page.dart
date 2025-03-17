@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khana_pena/models/category.dart';
 import 'package:khana_pena/models/food.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,112 +23,6 @@ class _HomePageState extends State<HomePage> {
     category: "Pakistani Cousine",
   );
 
-  final List<Food> _foodItemList = [
-    Food(
-      name: "Chicken Biryani",
-      description:
-          "Fragrant rice dish with marinated chicken and aromatic spices",
-      imageUrl:
-          "https://images.pexels.com/photos/17649369/pexels-photo-17649369/free-photo-of-meat-with-rice.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      timeToPrepare: "60 mins",
-      difficulty: "Medium",
-      rating: "4.8",
-      category: "Pakistani Cuisine",
-    ),
-    Food(
-      name: "Beef Nihari",
-      description:
-          "Slow-cooked beef stew with rich spices, traditionally served for breakfast",
-      imageUrl:
-          "https://images.pexels.com/photos/2313686/pexels-photo-2313686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      timeToPrepare: "180 mins",
-      difficulty: "Hard",
-      rating: "4.7",
-      category: "Pakistani Cuisine",
-    ),
-    Food(
-      name: "Seekh Kebab",
-      description: "Grilled minced meat skewers flavored with herbs and spices",
-      imageUrl:
-          "https://images.pexels.com/photos/2233729/pexels-photo-2233729.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      timeToPrepare: "40 mins",
-      difficulty: "Medium",
-      rating: "4.5",
-      category: "Pakistani Cuisine",
-    ),
-    Food(
-      name: "Chapli Kebab",
-      description: "Spicy minced meat patties famous in Peshawar region",
-      imageUrl:
-          "https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      timeToPrepare: "30 mins",
-      difficulty: "Medium",
-      rating: "4.6",
-      category: "Pakistani Cuisine",
-    ),
-    Food(
-      name: "Haleem",
-      description:
-          "Slow-cooked stew of wheat, lentils, and meat, blended into thick paste",
-      imageUrl:
-          "https://images.pexels.com/photos/7625056/pexels-photo-7625056.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      timeToPrepare: "150 mins",
-      difficulty: "Hard",
-      rating: "4.7",
-      category: "Pakistani Cuisine",
-    ),
-    Food(
-      name: "Karahi Gosht",
-      description: "Spicy meat dish cooked in a wok-like utensil called karahi",
-      imageUrl:
-          "https://images.pexels.com/photos/8969237/pexels-photo-8969237.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      timeToPrepare: "45 mins",
-      difficulty: "Medium",
-      rating: "4.6",
-      category: "Pakistani Cuisine",
-    ),
-    Food(
-      name: "Aloo Keema",
-      description: "Minced meat cooked with potatoes and traditional spices",
-      imageUrl:
-          "https://images.pexels.com/photos/7211169/pexels-photo-7211169.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      timeToPrepare: "40 mins",
-      difficulty: "Easy",
-      rating: "4.3",
-      category: "Pakistani Cuisine",
-    ),
-    Food(
-      name: "Chana Chaat",
-      description: "Tangy chickpea salad with vegetables and tamarind sauce",
-      imageUrl:
-          "https://images.pexels.com/photos/1640773/pexels-photo-1640773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      timeToPrepare: "20 mins",
-      difficulty: "Easy",
-      rating: "4.2",
-      category: "Pakistani Cuisine",
-    ),
-    Food(
-      name: "Paya Soup",
-      description: "Traditional soup made from slow-cooking trotters in spices",
-      imageUrl:
-          "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      timeToPrepare: "240 mins",
-      difficulty: "Hard",
-      rating: "4.4",
-      category: "Pakistani Cuisine",
-    ),
-    Food(
-      name: "Sheermal",
-      description:
-          "Saffron-flavored traditional flatbread, often served with kebabs",
-      imageUrl:
-          "https://images.pexels.com/photos/1586942/pexels-photo-1586942.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      timeToPrepare: "35 mins",
-      difficulty: "Medium",
-      rating: "4.1",
-      category: "Pakistani Cuisine",
-    ),
-  ];
   List _featuredMeals = [
     {
       'name': 'Vegetable Pasta Primavera',
@@ -187,7 +82,7 @@ class _HomePageState extends State<HomePage> {
       'likes': 1756,
     },
   ];
-
+  List<Category>  categoriesList = foodCategories;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -198,9 +93,11 @@ class _HomePageState extends State<HomePage> {
             children: [
               _buildHeader(),
               const SizedBox(height: 20),
-              _showFeaturedFoodCarousel(),
+              // _showFeaturedFoodCarousel(),
+              // const SizedBox(height: 20),
+              _buildMealCarousel(foodItemList),
               const SizedBox(height: 24),
-              _buildCategoriesSection(),
+              _buildCategoriesSection(categoriesList),
               const SizedBox(height: 24),
               _buildFiltersSection(),
               const SizedBox(height: 24),
@@ -278,10 +175,10 @@ class _HomePageState extends State<HomePage> {
         height: 300,
         color: Colors.red,
         child: ListView.builder(
-          itemCount: _foodItemList.length,
+          itemCount: foodItemList.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index){
-            Food meal = _foodItemList[index];
+            Food meal = foodItemList[index];
             return Container(
               width: 200,
               height: 200,
@@ -297,7 +194,7 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-  Widget _buildMealCarousel() {
+  Widget _buildMealCarousel(List<Food> foodList) {
     return Column(
       children: [
         SizedBox(
@@ -305,11 +202,12 @@ class _HomePageState extends State<HomePage> {
           child: PageView.builder(
             onPageChanged: (index) {
               setState(() {
-                _currentCarouselIndex = index % _featuredMeals.length;
+                _currentCarouselIndex = index % foodList.length;
               });
             },
+            itemCount: foodList.length,
             itemBuilder: (context, index) {
-              final meal = _featuredMeals[index % _featuredMeals.length];
+              final Food meal = foodList[index];
               return Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
@@ -331,8 +229,8 @@ class _HomePageState extends State<HomePage> {
                         topLeft: Radius.circular(12),
                         topRight: Radius.circular(12),
                       ),
-                      child: Image.asset(
-                        meal['image'],
+                      child: Image.network(
+                        meal.imageUrl,
                         height: 180,
                         width: double.infinity,
                         fit: BoxFit.cover,
@@ -352,7 +250,7 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            meal['name'],
+                           meal.name,
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -360,7 +258,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            meal['description'],
+                            meal.description,
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey.shade600,
@@ -372,29 +270,29 @@ class _HomePageState extends State<HomePage> {
                               const Icon(Icons.access_time, size: 16),
                               const SizedBox(width: 4),
                               Text(
-                                meal['time'],
+                                meal.timeToPrepare,
                                 style: const TextStyle(fontSize: 12),
                               ),
                               const SizedBox(width: 12),
                               const Icon(Icons.trending_up, size: 16),
                               const SizedBox(width: 4),
                               Text(
-                                meal['difficulty'],
+                                meal.difficulty,
                                 style: const TextStyle(fontSize: 12),
                               ),
                               const Spacer(),
-                              ...List.generate(
-                                5,
-                                (index) => Icon(
-                                  index < (meal['rating'] as double).floor()
-                                      ? Icons.star
-                                      : index < meal['rating']
-                                      ? Icons.star_half
-                                      : Icons.star_border,
-                                  color: Colors.amber,
-                                  size: 16,
-                                ),
-                              ),
+                              // ...List.generate(
+                              //   5,
+                              //   (index) => Icon(
+                              //     index < (meal['rating'] as double).floor()
+                              //         ? Icons.star
+                              //         : index < meal['rating']
+                              //         ? Icons.star_half
+                              //         : Icons.star_border,
+                              //     color: Colors.amber,
+                              //     size: 16,
+                              //   ),
+                              // ),
                             ],
                           ),
                         ],
@@ -410,7 +308,7 @@ class _HomePageState extends State<HomePage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
-            _featuredMeals.length,
+            foodList.length,
             (index) => Container(
               margin: const EdgeInsets.symmetric(horizontal: 4),
               width: 8,
@@ -430,7 +328,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildCategoriesSection() {
+  Widget _buildCategoriesSection(List<Category> categories) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -453,17 +351,17 @@ class _HomePageState extends State<HomePage> {
           child: ListView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             scrollDirection: Axis.horizontal,
-            itemCount: _categories.length,
+            itemCount: categories.length,
             itemBuilder: (context, index) {
-              final category = _categories[index];
+              final category = categories[index];
               return Container(
                 width: 88,
                 margin: const EdgeInsets.symmetric(horizontal: 4),
                 decoration: BoxDecoration(
-                  color: category['color'].withOpacity(0.1),
+                  color: category.color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: category['color'].withOpacity(0.3),
+                    color: category.color.withOpacity(0.3),
                     width: 1,
                   ),
                 ),
@@ -473,18 +371,18 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: category['color'].withOpacity(0.8),
+                        color: category.color.withOpacity(0.8),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(
-                        category['icon'],
+                        category.icon,
                         color: Colors.white,
                         size: 28,
                       ),
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      category['name'],
+                      category.name,
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
