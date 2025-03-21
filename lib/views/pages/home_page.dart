@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Header(),
               const SizedBox(height: 20),
-              _buildMealCarousel(foodItemList),
+              _buildMealCarousel(foods),
               const SizedBox(height: 24),
               _buildCategoriesSection(categoriesList),
               const SizedBox(height: 24),
@@ -232,9 +232,9 @@ class _HomePageState extends State<HomePage> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
       ),
-      itemCount: foodItemList.length,
+      itemCount: foods.length,
       itemBuilder: (context, index) {
-        Food meal = foodItemList[index];
+        Food meal = foods[index];
         return MealCard(meal: meal,);
       },
     );

@@ -14,9 +14,7 @@ class MealCard extends StatelessWidget {
       onTap: () {
         //! navigate to meal detail screen
         Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => MealDetailPage(meal: meal),
-          ),
+          MaterialPageRoute(builder: (context) => MealDetailPage(meal: meal)),
         );
       },
       child: Card(
@@ -31,7 +29,7 @@ class MealCard extends StatelessWidget {
                 child: Stack(
                   children: [
                     Positioned.fill(
-                      child: Image.network(meal.imageUrl, fit: BoxFit.cover),
+                      child: Image.network(meal.images[0], fit: BoxFit.cover),
                     ),
                     Container(
                       decoration: BoxDecoration(
@@ -71,7 +69,7 @@ class MealCard extends StatelessWidget {
                     Row(
                       children: [
                         RatingBarIndicator(
-                          rating: 4.5,
+                          rating: meal.rating,
                           itemBuilder:
                               (context, index) =>
                                   const Icon(Icons.star, color: Colors.amber),

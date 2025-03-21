@@ -29,7 +29,7 @@ class FeaturedMealCard extends StatelessWidget {
               topRight: Radius.circular(12),
             ),
             child: Image.network(
-              meal.imageUrl,
+              meal.images.first,
               height: 180,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -58,7 +58,12 @@ class FeaturedMealCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   meal.description,
-                  style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                   overflow: TextOverflow.ellipsis,
+                   maxLines: 1,
+                  style: TextStyle(fontSize: 14, color: Colors.grey.shade600,
+                  overflow: TextOverflow.ellipsis,
+                  
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Row(

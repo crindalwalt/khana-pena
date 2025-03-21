@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 import 'package:khana_pena/models/food.dart';
 
 class MealDetailPage extends StatelessWidget {
@@ -33,9 +33,7 @@ class MealDetailPage extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(14),
                   child: Image(
-                    image: NetworkImage(
-                      meal.imageUrl,
-                    ),
+                    image: NetworkImage(meal.images.first),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -47,8 +45,9 @@ class MealDetailPage extends StatelessWidget {
                 height: 100,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 10,
+                  itemCount: meal.images.length,
                   itemBuilder: (context, index) {
+                    String imageUrl = meal.images[index];
                     return Container(
                       width: 100,
                       height: 100,
@@ -56,9 +55,7 @@ class MealDetailPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(14),
                         image: DecorationImage(
-                          image: NetworkImage(
-                            "https://images.pexels.com/photos/7129446/pexels-photo-7129446.jpeg?auto=compress&cs=tinysrgb&w=1280&h=750&dpr=1",
-                          ),
+                          image: NetworkImage(imageUrl),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -83,6 +80,14 @@ class MealDetailPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 5),
+              Row(
+                children: [
+                  StarRating(rating: meal.rating),
+                  SizedBox(width: 5),
+                  Text(meal.rating.toString()),
+                ],
+              ),
+              const SizedBox(height: 5),
 
               Container(
                 child: Row(
@@ -100,16 +105,9 @@ class MealDetailPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    Text("Gorden Ramsey"),
+                    Text(meal.chef["name"]!),
                   ],
                 ),
-              ),
-              const SizedBox(height: 5),
-              //! rating
-              Row(
-                children: List.generate(4, (context) {
-                  return Icon(Icons.star, color: Colors.amber, size: 15);
-                }),
               ),
               const SizedBox(height: 5),
 
@@ -141,7 +139,7 @@ class MealDetailPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text("Easy"),
+                          Text(meal.difficulty),
                         ],
                       ),
                     ),
@@ -164,7 +162,7 @@ class MealDetailPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text("20 Min"),
+                          Text(meal.timeToPrepare),
                         ],
                       ),
                     ),
@@ -188,7 +186,7 @@ class MealDetailPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text("Italy"),
+                          Text(meal.countryOfOrigin),
                         ],
                       ),
                     ),
@@ -212,11 +210,78 @@ class MealDetailPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text("3 person"),
+                          Text(meal.servingSize.toString() + " person"),
                         ],
                       ),
                     ),
                   ],
+                ),
+              ),
+              const SizedBox(height: 15),
+              //! Ingredients
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Ingredients',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  TextButton(onPressed: () {}, child: const Text('See All')),
+                ],
+              ),
+              const SizedBox(height: 5),
+              Container(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: meal.ingredients.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 5),
+
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade200,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: ListTile(
+                        leading: Icon(Icons.food_bank),
+                        title: Text(meal.ingredients[index]),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 15),
+              //! Ingredients
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Steps',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  TextButton(onPressed: () {}, child: const Text('See All')),
+                ],
+              ),
+              const SizedBox(height: 5),
+              Container(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: meal.steps.length,
+                  itemBuilder: (context, index) {
+                    int count = index + 1;
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 5),
+
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade200,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: ListTile(
+                        leading: CircleAvatar(child: Text(count.toString())),
+                        title: Text(meal.steps[index]),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
