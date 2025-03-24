@@ -2,20 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:khana_pena/models/food.dart';
 
-class MealDetailPage extends StatelessWidget {
+class MealDetailPage extends StatefulWidget {
   final Food meal;
+
   MealDetailPage({required this.meal});
+
+  @override
+  State<MealDetailPage> createState() => _MealDetailPageState();
+}
+
+class _MealDetailPageState extends State<MealDetailPage> {
+  Icon unSavedIcon = Icon(Icons.favorite_border_outlined);
+
+  Icon savedIcon = Icon(Icons.favorite, color: Colors.red);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(meal.name),
+        title: Text(widget.meal.name),
         centerTitle: false,
 
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: IconButton(onPressed: () {}, icon: Icon(Icons.favorite)),
+            child:
+                widget.meal.isSaved
+                    ? IconButton(
+                      onPressed: () {
+                        // snack bar
+                        setState(() {
+                          widget.meal.isSaved = false;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Meal is removed from Favourites"),
+                          ),
+                        );
+                      },
+                      icon: savedIcon,
+                    )
+                    : IconButton(
+                      onPressed: () {
+                        setState(() {
+                          widget.meal.isSaved = true;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Meal is added to Favourites"),
+                            ),
+                          );
+                        });
+                      },
+                      icon: unSavedIcon,
+                    ),
           ),
         ],
       ),
@@ -33,7 +72,7 @@ class MealDetailPage extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(14),
                   child: Image(
-                    image: NetworkImage(meal.images.first),
+                    image: NetworkImage(widget.meal.images.first),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -45,9 +84,9 @@ class MealDetailPage extends StatelessWidget {
                 height: 100,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: meal.images.length,
+                  itemCount: widget.meal.images.length,
                   itemBuilder: (context, index) {
-                    String imageUrl = meal.images[index];
+                    String imageUrl = widget.meal.images[index];
                     return Container(
                       width: 100,
                       height: 100,
@@ -67,12 +106,12 @@ class MealDetailPage extends StatelessWidget {
               const SizedBox(height: 5),
               //! Title and description
               Text(
-                meal.name,
+                widget.meal.name,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
               const SizedBox(height: 5),
               Text(
-                meal.description,
+                widget.meal.description,
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 14,
@@ -82,9 +121,9 @@ class MealDetailPage extends StatelessWidget {
               const SizedBox(height: 5),
               Row(
                 children: [
-                  StarRating(rating: meal.rating),
+                  StarRating(rating: widget.meal.rating),
                   SizedBox(width: 5),
-                  Text(meal.rating.toString()),
+                  Text(widget.meal.rating.toString()),
                 ],
               ),
               const SizedBox(height: 5),
@@ -105,7 +144,7 @@ class MealDetailPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    Text(meal.chef["name"]!),
+                    Text(widget.meal.chef["name"]!),
                   ],
                 ),
               ),
@@ -139,7 +178,7 @@ class MealDetailPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(meal.difficulty),
+                          Text(widget.meal.difficulty),
                         ],
                       ),
                     ),
@@ -162,7 +201,7 @@ class MealDetailPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(meal.timeToPrepare),
+                          Text(widget.meal.timeToPrepare),
                         ],
                       ),
                     ),
@@ -186,7 +225,7 @@ class MealDetailPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(meal.countryOfOrigin),
+                          Text(widget.meal.countryOfOrigin),
                         ],
                       ),
                     ),
@@ -210,7 +249,7 @@ class MealDetailPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(meal.servingSize.toString() + " person"),
+                          Text(widget.meal.servingSize.toString() + " person"),
                         ],
                       ),
                     ),
@@ -233,7 +272,7 @@ class MealDetailPage extends StatelessWidget {
               Container(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: meal.ingredients.length,
+                  itemCount: widget.meal.ingredients.length,
                   itemBuilder: (context, index) {
                     return Container(
                       margin: EdgeInsets.only(bottom: 5),
@@ -244,7 +283,7 @@ class MealDetailPage extends StatelessWidget {
                       ),
                       child: ListTile(
                         leading: Icon(Icons.food_bank),
-                        title: Text(meal.ingredients[index]),
+                        title: Text(widget.meal.ingredients[index]),
                       ),
                     );
                   },
@@ -266,7 +305,7 @@ class MealDetailPage extends StatelessWidget {
               Container(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: meal.steps.length,
+                  itemCount: widget.meal.steps.length,
                   itemBuilder: (context, index) {
                     int count = index + 1;
                     return Container(
@@ -278,7 +317,7 @@ class MealDetailPage extends StatelessWidget {
                       ),
                       child: ListTile(
                         leading: CircleAvatar(child: Text(count.toString())),
-                        title: Text(meal.steps[index]),
+                        title: Text(widget.meal.steps[index]),
                       ),
                     );
                   },

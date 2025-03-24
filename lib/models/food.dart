@@ -82,7 +82,7 @@ List<Food> foods = [
       "Mix gently before serving, ensuring the layers remain intact.",
       "Garnish with the reserved fried onions and serve hot with raita or salad.",
     ],
-    isSaved: true,
+    isSaved: false,
   ),
   Food(
     name: "Beef Nihari",
@@ -136,7 +136,7 @@ List<Food> foods = [
       "Garnish with the fried onions, fresh coriander leaves, and ginger juliennes.",
       "Serve hot with naan, paratha, or plain boiled rice, along with lemon wedges.",
     ],
-    isSaved: true,
+    isSaved: false,
   ),
   Food(
     name: "Seekh Kebab",
@@ -230,7 +230,7 @@ List<Food> foods = [
       "Drain on paper towels to remove excess oil.",
       "Serve hot with naan, chutney, and fresh salad.",
     ],
-    isSaved: true,
+    isSaved: false,
   ),
   Food(
     name: "Haleem",
@@ -285,7 +285,7 @@ List<Food> foods = [
       "The haleem should have a smooth, paste-like consistency when done.",
       "Serve hot, garnished with fried onions, julienned ginger, chopped coriander, and lemon wedges.",
     ],
-    isSaved: false,
+    isSaved: true,
   ),
   Food(
     name: "Karahi Gosht",
@@ -332,7 +332,7 @@ List<Food> foods = [
       "Garnish with remaining julienned ginger, fresh coriander leaves, and slit green chilies.",
       "Serve hot with naan, roti, or rice.",
     ],
-    isSaved: true,
+    isSaved: false,
   ),
   Food(
     name: "Gajar Ka Halwa",

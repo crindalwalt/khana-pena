@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khana_pena/views/pages/favourite_meal_screen.dart';
 
 class Header extends StatelessWidget {
   @override
@@ -30,8 +31,14 @@ class Header extends StatelessWidget {
           Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.notifications_none),
-                onPressed: () {},
+                icon: const Icon(Icons.favorite),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => FavouriteMealScreen(),
+                    ),
+                  );
+                },
               ),
               Container(
                 height: 40,
