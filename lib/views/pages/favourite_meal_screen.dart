@@ -9,7 +9,7 @@ class FavouriteMealScreen extends StatefulWidget {
 }
 
 class _FavouriteMealScreenState extends State<FavouriteMealScreen> {
-  final list = foods.where((food) => food.isSaved == true).toList();
+  final List<Food> list = foods.where((item) => item.isSaved == true).toList();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,6 +18,7 @@ class _FavouriteMealScreenState extends State<FavouriteMealScreen> {
         itemCount: list.length,
         itemBuilder: (context, index) {
           final foodItem = list[index];
+          // TODO: create this tile in amazing design
           return ListTile(
             leading: CircleAvatar(child: Image.network(foodItem.images.first)),
             title: Text(foodItem.name),

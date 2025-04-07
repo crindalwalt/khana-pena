@@ -82,7 +82,7 @@ List<Food> foods = [
       "Mix gently before serving, ensuring the layers remain intact.",
       "Garnish with the reserved fried onions and serve hot with raita or salad.",
     ],
-    isSaved: false,
+    isSaved: true,
   ),
   Food(
     name: "Beef Nihari",

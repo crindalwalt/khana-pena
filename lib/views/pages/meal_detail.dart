@@ -30,13 +30,17 @@ class _MealDetailPageState extends State<MealDetailPage> {
                 widget.meal.isSaved
                     ? IconButton(
                       onPressed: () {
-                        // snack bar
+                        //? un save the meal
+                        print("meal removed from saved meals");
                         setState(() {
                           widget.meal.isSaved = false;
                         });
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text("Meal is removed from Favourites"),
+                            backgroundColor: Colors.red,
+                            duration: Duration(seconds: 2),
+                            showCloseIcon: true,
+                            content: Text("Meal removed from Favourites"),
                           ),
                         );
                       },
@@ -44,17 +48,24 @@ class _MealDetailPageState extends State<MealDetailPage> {
                     )
                     : IconButton(
                       onPressed: () {
+                        //? save meal
+                        print("meal added to saved meals");
                         setState(() {
                           widget.meal.isSaved = true;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Meal is added to Favourites"),
-                            ),
-                          );
                         });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.green,
+                            duration: Duration(seconds: 2),
+                            showCloseIcon: true,
+                            content: Text("Meal is saved "),
+                          ),
+                        );
                       },
                       icon: unSavedIcon,
                     ),
+
+            // widget is used when you try to access main class varialbles/methods in state class
           ),
         ],
       ),
