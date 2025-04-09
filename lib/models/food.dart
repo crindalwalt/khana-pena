@@ -82,7 +82,7 @@ List<Food> foods = [
       "Mix gently before serving, ensuring the layers remain intact.",
       "Garnish with the reserved fried onions and serve hot with raita or salad.",
     ],
-    isSaved: true,
+    isSaved: false,
   ),
   Food(
     name: "Beef Nihari",
@@ -285,7 +285,7 @@ List<Food> foods = [
       "The haleem should have a smooth, paste-like consistency when done.",
       "Serve hot, garnished with fried onions, julienned ginger, chopped coriander, and lemon wedges.",
     ],
-    isSaved: true,
+    isSaved: false,
   ),
   Food(
     name: "Karahi Gosht",
