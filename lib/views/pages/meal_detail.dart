@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:khana_pena/models/food.dart';
 
+// main class
 class MealDetailPage extends StatefulWidget {
   final Food meal;
 
@@ -11,10 +12,11 @@ class MealDetailPage extends StatefulWidget {
   State<MealDetailPage> createState() => _MealDetailPageState();
 }
 
+// state class
 class _MealDetailPageState extends State<MealDetailPage> {
-  Icon unSavedIcon = Icon(Icons.favorite_border_outlined);
+  Icon unSavedIcon = Icon(Icons.bookmark_add_outlined, color: Colors.blue);
 
-  Icon savedIcon = Icon(Icons.favorite, color: Colors.red);
+  Icon savedIcon = Icon(Icons.bookmark, color: Colors.blue);
 
   @override
   Widget build(BuildContext context) {
@@ -26,44 +28,34 @@ class _MealDetailPageState extends State<MealDetailPage> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child:
-                widget.meal.isSaved
-                    ? IconButton(
-                      onPressed: () {
-                        //? un save the meal
-                        print("meal removed from saved meals");
-                        setState(() {
-                          widget.meal.isSaved = false;
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Colors.red,
-                            duration: Duration(seconds: 2),
-                            showCloseIcon: true,
-                            content: Text("Meal removed from Favourites"),
-                          ),
-                        );
-                      },
-                      icon: savedIcon,
-                    )
-                    : IconButton(
-                      onPressed: () {
-                        //? save meal
-                        print("meal added to saved meals");
-                        setState(() {
-                          widget.meal.isSaved = true;
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Colors.green,
-                            duration: Duration(seconds: 2),
-                            showCloseIcon: true,
-                            content: Text("Meal is saved "),
-                          ),
-                        );
-                      },
-                      icon: unSavedIcon,
-                    ),
+            child: IconButton(
+              onPressed: () {
+                if (widget.meal.isSaved) {
+                  // unsave the meal
+                  setState(() {
+                    widget.meal.isSaved = false;
+                  });
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text("Meal is removed from saved")));
+                  print("meal is removed from saved");
+                  print("meal saved status is ${widget.meal.isSaved}");
+                } else {
+                  // save the meal
+                  setState(() {
+                    widget.meal.isSaved = true;
+                  });
+
+                  // show snackbar
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text("Meal is saved")));
+                  print("meal is  saved");
+                  print("meal saved status is ${widget.meal.isSaved}");
+                }
+              },
+              icon: widget.meal.isSaved ? savedIcon : unSavedIcon,
+            ),
 
             // widget is used when you try to access main class varialbles/methods in state class
           ),

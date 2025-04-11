@@ -285,7 +285,7 @@ List<Food> foods = [
       "The haleem should have a smooth, paste-like consistency when done.",
       "Serve hot, garnished with fried onions, julienned ginger, chopped coriander, and lemon wedges.",
     ],
-    isSaved: false,
+    isSaved: true,
   ),
   Food(
     name: "Karahi Gosht",
