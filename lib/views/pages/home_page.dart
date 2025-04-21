@@ -235,7 +235,7 @@ class _HomePageState extends State<HomePage> {
       itemCount: foods.length,
       itemBuilder: (context, index) {
         Food meal = foods[index];
-        return MealCard(meal: meal,);
+        return MealCard(meal: meal);
       },
     );
   }

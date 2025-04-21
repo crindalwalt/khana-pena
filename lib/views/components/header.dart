@@ -16,7 +16,7 @@ class Header extends StatelessWidget {
                 height: 40,
                 width: 40,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(Icons.restaurant_menu, color: Colors.white),
