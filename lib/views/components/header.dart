@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:khana_pena/views/pages/favourite_meal_screen.dart';
 
-class Header extends StatelessWidget {
+class Header extends StatefulWidget {
+  bool isDarkMode = true;
+  @override
+  State<Header> createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -47,15 +53,14 @@ class Header extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.grey.shade300),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
-                    'assets/images/profile.jpg',
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Icon(Icons.person);
-                    },
-                  ),
+                child: Switch(
+                  value: widget.isDarkMode,
+                  onChanged: (value) {
+                    setState(() {
+                      widget.isDarkMode = !widget.isDarkMode;
+                    });
+                    print("mode is ${widget.isDarkMode}");
+                  },
                 ),
               ),
             ],

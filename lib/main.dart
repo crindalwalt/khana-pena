@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:khana_pena/providers/theme_provider.dart';
 import 'package:khana_pena/views/pages/home_page.dart';
-import 'package:khana_pena/views/pages/meal_detail.dart';
+
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(RootApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: RootApp(),
+    ),
+  );
 }
 
 class RootApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+  final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       title: 'Flutter Demo',
       home: HomePage(),
@@ -33,6 +41,7 @@ class RootApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
+      themeMode: themeProvider.theme,
     );
   }
 }
