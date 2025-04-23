@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:khana_pena/providers/theme_provider.dart';
 import 'package:khana_pena/views/pages/favourite_meal_screen.dart';
+import 'package:provider/provider.dart';
 
 class Header extends StatefulWidget {
-  bool isDarkMode = true;
+  bool isDarkMode = false;
   @override
   State<Header> createState() => _HeaderState();
 }
@@ -10,6 +12,7 @@ class Header extends StatefulWidget {
 class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     // TODO: implement build
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -49,16 +52,15 @@ class _HeaderState extends State<Header> {
               Container(
                 height: 40,
                 width: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.grey.shade300),
-                ),
+
                 child: Switch(
-                  value: widget.isDarkMode,
+                  value:
+                      themeProvider.themeMode == ThemeMode.dark ? true : false,
                   onChanged: (value) {
-                    setState(() {
-                      widget.isDarkMode = !widget.isDarkMode;
-                    });
+                    
+                      themeProvider.toggleDarkMode(value);
+                    
+                    print(themeProvider.themeMode);
                     print("mode is ${widget.isDarkMode}");
                   },
                 ),

@@ -6,17 +6,14 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
-      child: RootApp(),
-    ),
+    ChangeNotifierProvider(create: (_) => ThemeProvider(), child: RootApp()),
   );
 }
 
 class RootApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-  final themeProvider = Provider.of<ThemeProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       title: 'Flutter Demo',
       home: HomePage(),
@@ -41,7 +38,7 @@ class RootApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
-      themeMode: themeProvider.theme,
+      themeMode: themeProvider.themeMode,
     );
   }
 }
