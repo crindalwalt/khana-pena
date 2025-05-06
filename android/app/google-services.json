@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "693686588432",
+    "project_id": "khana-pena-orignal",
+    "storage_bucket": "khana-pena-orignal.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693686588432:android:5a98f24b6e3b6e6c2da695",
+        "android_client_info": {
+          "package_name": "com.example.khana_pena"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO_NzjMQA47jtqa7FW9iW0Ti55l0Ct-sM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

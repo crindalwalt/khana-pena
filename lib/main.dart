@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:khana_pena/providers/theme_provider.dart';
+import 'package:khana_pena/views/pages/auth/login.dart';
+import 'package:khana_pena/views/pages/auth/register.dart';
+import 'package:khana_pena/views/pages/auth/verify_email.dart';
 import 'package:khana_pena/views/pages/home_page.dart';
 
 import 'package:provider/provider.dart';
@@ -16,7 +19,7 @@ class RootApp extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       title: 'Flutter Demo',
-      home: HomePage(),
+      
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
@@ -39,6 +42,7 @@ class RootApp extends StatelessWidget {
         ),
       ),
       themeMode: themeProvider.themeMode,
+      home: RegisterScreen(),
     );
   }
 }
