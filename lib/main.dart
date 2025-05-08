@@ -1,4 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:khana_pena/firebase_options.dart';
+import 'package:khana_pena/providers/auth_provider.dart';
 import 'package:khana_pena/providers/theme_provider.dart';
 import 'package:khana_pena/views/pages/auth/login.dart';
 import 'package:khana_pena/views/pages/auth/register.dart';
@@ -7,9 +10,17 @@ import 'package:khana_pena/views/pages/home_page.dart';
 
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
-    ChangeNotifierProvider(create: (_) => ThemeProvider(), child: RootApp()),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+      ],
+      child: RootApp(),
+    ),
   );
 }
 
@@ -19,7 +30,7 @@ class RootApp extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       title: 'Flutter Demo',
-      
+
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,

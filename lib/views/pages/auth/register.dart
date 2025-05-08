@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:khana_pena/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -40,6 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
   }
 
+  // THis function will submit the form
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       // Here we have to implement our submission
@@ -47,13 +50,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
       print("==========================");
       print("submitting the form ....");
       print("=========================");
-      print("name =>  ${ _nameController.text}");
-      print("email =>  ${ _emailController.text}");
-      print("phone =>  ${ _phoneController.text}");
-      print("password =>  ${ _passwordController.text}");
-      print("confirm =>  ${ _confirmPasswordController.text}");
+      print("name =>  ${_nameController.text}");
+      print("email =>  ${_emailController.text}");
+      print("phone =>  ${_phoneController.text}");
+      print("password =>  ${_passwordController.text}");
+      print("confirm =>  ${_confirmPasswordController.text}");
 
       print("=========================");
+
+      final auth = Provider.of<AuthProvider>(context,listen: false);
+      auth.registerUser(
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+        phone: _phoneController.text,
+      );
+      print("account created");
+      print("=========================");
+      print("=========================");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Account Created Successfully"),backgroundColor: Colors.greenAccent,)
+      );
     }
   }
 
@@ -222,7 +239,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             backgroundColor: colorScheme.inverseSurface,
                           ),
                         );
-                        
                       },
                       child: Text(
                         'Register',
