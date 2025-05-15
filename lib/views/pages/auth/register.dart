@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khana_pena/providers/auth_provider.dart';
+import 'package:khana_pena/views/pages/home_page.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -46,6 +48,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       // Here we have to implement our submission
+      // ! loading cirlce
+      setState(() {
+        _isLoading = true;
+      });
 
       print("==========================");
       print("submitting the form ....");
@@ -58,19 +64,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       print("=========================");
 
-      final auth = Provider.of<AuthProvider>(context,listen: false);
-      auth.registerUser(
+      final auth = Provider.of<AuthProvider>(context, listen: false);
+      final user = auth.registerUser(
         name: _nameController.text,
         email: _emailController.text,
         password: _passwordController.text,
         phone: _phoneController.text,
       );
-      print("account created");
-      print("=========================");
-      print("=========================");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Account Created Successfully"),backgroundColor: Colors.greenAccent,)
-      );
+
+      if (user != null) {
+        // ! successfull registration
+        setState(() {
+          _isLoading = false;
+        });
+        print("account created");
+        print("=========================");
+        print("=========================");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Account Created Successfully"),
+            backgroundColor: Colors.greenAccent,
+          ),
+        );
+
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => HomePage())
+        );
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        print("account creation failed");
+        print("=========================");
+        print("=========================");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Account cannot created"),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
+      }
     }
   }
 
@@ -228,19 +261,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       onPressed: () {
                         _submitForm();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Registration processing...',
-                              style: TextStyle(
-                                color: colorScheme.onInverseSurface,
-                              ),
-                            ),
-                            backgroundColor: colorScheme.inverseSurface,
-                          ),
-                        );
+                        
                       },
-                      child: Text(
+                      child: _isLoading  ? CircularProgressIndicator(
+                        color: Colors.white,
+                      ) : Text(
                         'Register',
                         style: textTheme.labelLarge?.copyWith(
                           color: colorScheme.onPrimary,

@@ -7,7 +7,7 @@ class AuthProvider extends ChangeNotifier {
   // initiate the firebase auth
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  void registerUser({
+  Future<UserCredential> registerUser({
     required String name,
     required String email,
     required String password,
@@ -15,11 +15,21 @@ class AuthProvider extends ChangeNotifier {
   }) async {
     // how to implement registration
 
+
+    // ! firebase auth query
     final UserCredential registering = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
+  return registering;
 
+
+  }
+
+
+
+  void logoutUser  () async{
+    await _auth.signOut();
   }
 }

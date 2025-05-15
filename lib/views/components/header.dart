@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:khana_pena/providers/auth_provider.dart';
 import 'package:khana_pena/providers/theme_provider.dart';
+import 'package:khana_pena/views/pages/auth/register.dart';
 import 'package:khana_pena/views/pages/favourite_meal_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -39,6 +41,7 @@ class _HeaderState extends State<Header> {
           ),
           Row(
             children: [
+
               IconButton(
                 icon: const Icon(Icons.favorite),
                 onPressed: () {
@@ -64,6 +67,24 @@ class _HeaderState extends State<Header> {
                     print("mode is ${widget.isDarkMode}");
                   },
                 ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.logout),
+                onPressed: () {
+                  // ! auth signout functionality
+                  final authProvider = Provider.of<AuthProvider>(context,listen: false);
+                  authProvider.logoutUser();
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Logout successfully"))
+                  );
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => RegisterScreen(),
+                    ),
+                  );
+                },
               ),
             ],
           ),
