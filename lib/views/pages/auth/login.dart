@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:khana_pena/providers/auth_provider.dart';
+import 'package:khana_pena/views/pages/auth/verify_email.dart';
+import 'package:khana_pena/views/pages/home_page.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,6 +31,53 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  void _submitLoginRequest() {
+    // ! how to submit the form
+    if (_formKey.currentState!.validate()) {
+      final emailAdress = _emailController.text;
+      final password = _passwordController.text;
+
+      // TODO: debug prints
+      print("==============================");
+      print("======= Login Form ===========");
+      print("==============================");
+      print(emailAdress);
+      print(password);
+      print("==============================");
+
+      final authProvider = Provider.of<AuthProvider>(context,listen: false);
+      final data = authProvider.loginUser(
+        email: emailAdress,
+        password: password,
+      );
+      if (data != null) {
+        // snackbar show
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Login Successful, please verify your email"),
+            backgroundColor: Colors.green,
+            
+          ),
+        );
+
+
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => VerifyEmailScreen(email: emailAdress,))
+        );
+      } else {
+        // error show krana hy
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Login Failed"),
+            backgroundColor: Colors.redAccent,
+            
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -50,7 +101,10 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 32.0,
+              ),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -76,7 +130,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     Text(
                       'Login to continue your culinary journey.',
                       textAlign: TextAlign.center,
-                      style: textTheme.titleMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+                      style: textTheme.titleMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
                     ),
                     const SizedBox(height: 32),
 
@@ -125,17 +181,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         shadowColor: colorScheme.primary.withOpacity(0.4),
                       ),
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Login processing...', style: TextStyle(color: colorScheme.onInverseSurface)),
-                              backgroundColor: colorScheme.inverseSurface,
-                            ),
-                          );
-                          // Implement actual login logic here
-                        }
+                        _submitLoginRequest();
                       },
-                      child: Text('Login', style: textTheme.labelLarge?.copyWith(color: colorScheme.onPrimary, fontWeight: FontWeight.bold, fontSize: 16)),
+                      child: Text(
+                        'Login',
+                        style: textTheme.labelLarge?.copyWith(
+                          color: colorScheme.onPrimary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 20),
 
@@ -144,7 +199,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           "Don't have an account?",
-                          style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
                         ),
                         TextButton(
                           onPressed: () {
@@ -185,7 +242,11 @@ class _LoginScreenState extends State<LoginScreen> {
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant),
-        prefixIcon: Icon(prefixIcon, color: theme.colorScheme.primary, size: 20),
+        prefixIcon: Icon(
+          prefixIcon,
+          color: theme.colorScheme.primary,
+          size: 20,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30.0),
           borderSide: BorderSide.none,
@@ -200,7 +261,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         filled: true,
         fillColor: theme.colorScheme.surfaceVariant.withOpacity(0.5),
-        contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 16.0,
+          horizontal: 20.0,
+        ),
       ),
       validator: validator,
       style: TextStyle(color: theme.colorScheme.onSurface),
@@ -221,10 +285,16 @@ class _LoginScreenState extends State<LoginScreen> {
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant),
-        prefixIcon: Icon(Icons.lock_outline, color: theme.colorScheme.primary, size: 20),
+        prefixIcon: Icon(
+          Icons.lock_outline,
+          color: theme.colorScheme.primary,
+          size: 20,
+        ),
         suffixIcon: IconButton(
           icon: Icon(
-            isPasswordVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+            isPasswordVisible
+                ? Icons.visibility_off_outlined
+                : Icons.visibility_outlined,
             color: theme.colorScheme.primary,
             size: 20,
           ),
@@ -234,7 +304,7 @@ class _LoginScreenState extends State<LoginScreen> {
           borderRadius: BorderRadius.circular(30.0),
           borderSide: BorderSide.none,
         ),
-         enabledBorder: OutlineInputBorder(
+        enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30.0),
           borderSide: BorderSide.none,
         ),
@@ -244,7 +314,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         filled: true,
         fillColor: theme.colorScheme.surfaceVariant.withOpacity(0.5),
-        contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 16.0,
+          horizontal: 20.0,
+        ),
       ),
       validator: validator,
       style: TextStyle(color: theme.colorScheme.onSurface),

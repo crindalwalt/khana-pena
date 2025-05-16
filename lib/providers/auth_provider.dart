@@ -26,7 +26,18 @@ class AuthProvider extends ChangeNotifier {
 
 
   }
+  Future<UserCredential> loginUser ({
+    required String email,
+    required String password
+  }) async{
 
+    //! request to firebase auth for login
+    final UserCredential loggingIn = await _auth.signInWithEmailAndPassword(email: email, password: password);
+    print("our system is trying to login");
+
+    return loggingIn;
+
+  }
 
 
   void logoutUser  () async{

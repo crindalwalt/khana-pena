@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khana_pena/providers/auth_provider.dart';
+import 'package:khana_pena/views/pages/auth/login.dart';
 import 'package:khana_pena/views/pages/home_page.dart';
 import 'package:provider/provider.dart';
 
@@ -288,7 +289,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         TextButton(
                           onPressed: () {
                             // TODO: Navigate to Login Screen
-                            // Example: Navigator.pushNamed(context, '/login');
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
                           },
                           child: Text(
                             'Login',

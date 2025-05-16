@@ -53,7 +53,7 @@ class RootApp extends StatelessWidget {
         ),
       ),
       themeMode: themeProvider.themeMode,
-      home: RegisterScreen(),
+      home: LoginScreen(),
     );
   }
 }
