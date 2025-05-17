@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khana_pena/providers/auth_provider.dart';
+import 'package:khana_pena/views/pages/auth/register.dart';
 import 'package:khana_pena/views/pages/auth/verify_email.dart';
 import 'package:khana_pena/views/pages/home_page.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void _submitLoginRequest() {
+  void _submitLoginRequest() async {
     // ! how to submit the form
     if (_formKey.currentState!.validate()) {
       final emailAdress = _emailController.text;
@@ -45,33 +46,46 @@ class _LoginScreenState extends State<LoginScreen> {
       print(password);
       print("==============================");
 
-      final authProvider = Provider.of<AuthProvider>(context,listen: false);
-      final data = authProvider.loginUser(
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final data = await authProvider.loginUser(
         email: emailAdress,
         password: password,
       );
       if (data != null) {
+        //! check for email verification
+        if (data.user!.emailVerified) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Login Successful,Email already verified "),
+              backgroundColor: Colors.green,
+            ),
+          );
+
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        } else {
+          authProvider.verifyUserEmail(data);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Login Successful, please verify your email"),
+              backgroundColor: Colors.green,
+            ),
+          );
+
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => VerifyEmailScreen(email: emailAdress),
+            ),
+          );
+        }
         // snackbar show
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Login Successful, please verify your email"),
-            backgroundColor: Colors.green,
-            
-          ),
-        );
-
-
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => VerifyEmailScreen(email: emailAdress,))
-        );
       } else {
         // error show krana hy
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("Login Failed"),
             backgroundColor: Colors.redAccent,
-            
           ),
         );
       }
@@ -207,6 +221,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             // TODO: Navigate to Register Screen
                             // Example: Navigator.pushNamed(context, '/register');
+
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => RegisterScreen(),
+                              ),
+                            );
                           },
                           child: Text(
                             'Register',
