@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:khana_pena/views/pages/home_page.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
   final String email; // Email to display
-
-  const VerifyEmailScreen({super.key, required this.email});
+  final UserCredential data;
+  const VerifyEmailScreen({super.key, required this.email, required this.data});
 
   @override
   State<VerifyEmailScreen> createState() => _VerifyEmailScreenState();
@@ -56,8 +58,10 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen>
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 32.0,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -90,23 +94,26 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen>
                   Text(
                     'A verification link has been sent to:',
                     textAlign: TextAlign.center,
-                    style: textTheme.titleMedium
-                        ?.copyWith(color: colorScheme.onSurfaceVariant),
+                    style: textTheme.titleMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     widget.email, // Display the user's email
                     textAlign: TextAlign.center,
                     style: textTheme.titleMedium?.copyWith(
-                        color: colorScheme.onSurface,
-                        fontWeight: FontWeight.bold),
+                      color: colorScheme.onSurface,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   Text(
                     'Please check your inbox (and spam folder!) and click the link to activate your account.',
                     textAlign: TextAlign.center,
-                    style: textTheme.bodyMedium
-                        ?.copyWith(color: colorScheme.onSurfaceVariant),
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
                   ),
                   const SizedBox(height: 40),
                   ElevatedButton(
@@ -124,31 +131,43 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen>
                       // Implement resend email logic here
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Resending verification email...',
-                              style: TextStyle(
-                                  color: colorScheme.onInverseSurface)),
+                          content: Text(
+                            'Resending verification email...',
+                            style: TextStyle(
+                              color: colorScheme.onInverseSurface,
+                            ),
+                          ),
                           backgroundColor: colorScheme.inverseSurface,
                         ),
                       );
                     },
-                    child: Text('Resend Verification Email',
-                        style: textTheme.labelLarge?.copyWith(
-                            color: colorScheme.onPrimary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16)),
+                    child: Text(
+                      'Resend Verification Email',
+                      style: textTheme.labelLarge?.copyWith(
+                        color: colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   TextButton(
                     onPressed: () {
                       // TODO: Navigate to Login Screen
+                      if (widget.data.user!.emailVerified) {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Email not verifeid"))
+                        );
+                      }
                       // Example: Navigator.popUntil(context, ModalRoute.withName('/login'));
                       // Or Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-                       if (Navigator.canPop(context)) {
-                         Navigator.pop(context); // Simple pop if it was pushed on top
-                       }
                     },
                     child: Text(
-                      'Back to Login',
+                      'Proceed',
                       style: textTheme.bodyMedium?.copyWith(
                         color: colorScheme.primary,
                         fontWeight: FontWeight.bold,

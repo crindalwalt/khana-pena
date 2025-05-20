@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => VerifyEmailScreen(email: emailAdress),
+              builder: (context) => VerifyEmailScreen(email: emailAdress, data: data,),
             ),
           );
         }
