@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:khana_pena/models/category.dart';
 import 'package:khana_pena/models/food.dart';
+import 'package:khana_pena/providers/recipe_provider.dart';
 import 'package:khana_pena/views/components/category_box.dart';
 import 'package:khana_pena/views/components/featured_meal_card.dart';
 import 'package:khana_pena/views/components/header.dart';
 import 'package:khana_pena/views/components/meal_grid_card.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,6 +31,8 @@ class _HomePageState extends State<HomePage> {
   List<Category> categoriesList = foodCategories;
   @override
   Widget build(BuildContext context) {
+    // start provider here
+    final recipeProvider = Provider.of<RecipeProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -43,7 +47,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 24),
               _buildFiltersSection(),
               const SizedBox(height: 24),
-              _buildMealGrid(),
+              _buildMealGrid(provider: recipeProvider),
             ],
           ),
         ),
@@ -224,18 +228,33 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildMealGrid() {
-    return GridView.builder(
-      shrinkWrap: true,
-      primary: false,
-      physics: NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-      ),
-      itemCount: foods.length,
-      itemBuilder: (context, index) {
-        Food meal = foods[index];
-        return MealCard(meal: meal);
+  Widget _buildMealGrid({required RecipeProvider provider}) {
+    return FutureBuilder(
+      future: provider.fetchAllRecipes(),
+      builder: (context, snapshot) {
+        // if data is in waiting mode
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+        // if data is available or null/errors
+        if(snapshot.hasError || !snapshot.hasData ){
+          return Center(child: Icon(Icons.warning),);
+        }
+
+        // if data is present and well then print it
+        return GridView.builder(
+          shrinkWrap: true,
+          primary: false,
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+          ),
+          itemCount: foods.length,
+          itemBuilder: (context, index) {
+            Food meal = foods[index];
+            return MealCard(meal: meal);
+          },
+        );
       },
     );
   }

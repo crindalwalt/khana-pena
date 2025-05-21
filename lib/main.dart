@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:khana_pena/firebase_options.dart';
 import 'package:khana_pena/providers/auth_provider.dart';
+import 'package:khana_pena/providers/recipe_provider.dart';
 import 'package:khana_pena/providers/theme_provider.dart';
 import 'package:khana_pena/views/pages/auth/login.dart';
 import 'package:khana_pena/views/pages/auth/register.dart';
@@ -14,16 +15,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
-    MultiProvider(     
+    MultiProvider(
       providers: [
-
-
-
-
-
-        
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => RecipeProvider()),
       ],
       child: RootApp(),
     ),
@@ -59,7 +55,7 @@ class RootApp extends StatelessWidget {
         ),
       ),
       themeMode: themeProvider.themeMode,
-      home: LoginScreen(),
+      home: HomePage(),
     );
   }
 }
