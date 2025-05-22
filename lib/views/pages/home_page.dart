@@ -237,11 +237,13 @@ class _HomePageState extends State<HomePage> {
           return Center(child: CircularProgressIndicator());
         }
         // if data is available or null/errors
-        if(snapshot.hasError || !snapshot.hasData ){
-          return Center(child: Icon(Icons.warning),);
+        if (snapshot.hasError || !snapshot.hasData) {
+          return Center(child: Icon(Icons.warning));
         }
 
         // if data is present and well then print it
+
+        final mealsData = snapshot.data;
         return GridView.builder(
           shrinkWrap: true,
           primary: false,
@@ -249,10 +251,26 @@ class _HomePageState extends State<HomePage> {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
           ),
-          itemCount: foods.length,
+          itemCount: mealsData!.docs.length,
           itemBuilder: (context, index) {
-            Food meal = foods[index];
-            return MealCard(meal: meal);
+            // Food meal = foods[index];
+            final mealData = mealsData.docs[index];
+            // meals data
+            print("==============Meal Data");
+            print(mealData);
+            return Card(
+              child: Column(
+                children: [
+                  AspectRatio(
+                    aspectRatio: 4 / 3,
+                    child: Image.network(mealData["images"][0]),
+                  ),
+                  Text(mealData["name"]),
+                  Text("description"),
+                ],
+              ),
+            );
+            // return MealCard(meal: meal);
           },
         );
       },
